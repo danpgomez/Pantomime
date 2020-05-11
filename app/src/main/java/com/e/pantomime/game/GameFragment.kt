@@ -12,8 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.e.pantomime.R
 import com.e.pantomime.databinding.FragmentGameBinding
 
@@ -21,6 +21,7 @@ class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
     private lateinit var viewModel: GameViewModel
+    private lateinit var viewModelFactory: GameViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,9 @@ class GameFragment : Fragment() {
             false
         )
 
-        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+        val gameFragmentArgs: GameFragmentArgs by navArgs<GameFragmentArgs>()
+        viewModelFactory = GameViewModelFactory(gameFragmentArgs.selectedCategory)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
 

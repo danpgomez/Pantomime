@@ -14,7 +14,7 @@ private val PANIC_BUZZ_PATTERN = longArrayOf(0, 200)
 private val GAME_OVER_BUZZ_PATTERN = longArrayOf(0, 2000)
 private val NO_BUZZ_PATTERN = longArrayOf(0)
 
-class GameViewModel: ViewModel() {
+class GameViewModel(category: Category): ViewModel() {
     enum class BuzzType(val pattern: LongArray) {
         CORRECT(CORRECT_BUZZ_PATTERN),
         COUNTDOWN_PANIC(PANIC_BUZZ_PATTERN),
@@ -53,6 +53,7 @@ class GameViewModel: ViewModel() {
         get() = _buzzingType
 
     private lateinit var wordList: MutableList<String>
+    private var wordsRepository = WordsRepository().getCategoryWords(category)
     private var timer: CountDownTimer
 
     init {
@@ -85,30 +86,7 @@ class GameViewModel: ViewModel() {
     }
 
     private fun resetList() {
-        wordList = mutableListOf(
-            "queen",
-            "hospital",
-            "basketball",
-            "cat",
-            "change",
-            "snail",
-            "soup",
-            "calendar",
-            "sad",
-            "desk",
-            "guitar",
-            "home",
-            "railway",
-            "zebra",
-            "jelly",
-            "car",
-            "crow",
-            "trade",
-            "bag",
-            "roll",
-            "bubble"
-        )
-        wordList.shuffle()
+        wordList = wordsRepository.shuffled() as MutableList<String>
     }
 
     private fun nextWord() {

@@ -39,7 +39,7 @@ class ScoreFragment : Fragment() {
 
         viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgainBtnTapped ->
             if (playAgainBtnTapped) {
-                val action = ScoreFragmentDirections.actionScoreFragmentToGameFragment()
+                val action = ScoreFragmentDirections.actionScoreFragmentToTitleFragment()
                 findNavController().navigate(action)
                 viewModel.eventPlayAgainComplete()
             }
